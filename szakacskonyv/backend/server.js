@@ -102,4 +102,35 @@ app.post('/login', (req, res) =>{
 app.listen(port, () => {
     //console.log(process.env) ;
     console.log(`Server listening on port ${port}...`);
-  });
+});
+
+//felhasznalo modositas
+app.patch('/users/:id', (req,res) => {
+    if (!req.params.id) {
+        res.status(203).send('Hiányzó azonosító!');
+        return;
+    }
+
+    if (!req.body.name || !req.body.email || !req.body.role) {
+        res.status(203).send('Hiányzó adatok!');
+        return;
+    }
+
+    //ne módosíthassa már meglévő email címre az email címét
+
+    pool.query(`UPDATE users SET name='${req.body.name}', email='${req.body.email}', role='${req.body.role}' WHERE ID='${req.params.id}'`, (err, results) => {
+        if (err){
+          res.status(500).send('Hiba történt az adatbázis lekérés közben!');
+          return;
+        }
+    
+        if (results.affectedRows == 0){
+          res.status(203).send('Hibás azonosító!');
+          return;
+        }
+    
+        res.status(200).send('Felhasználó adatok módosítva!');
+        return;
+    });
+
+})
