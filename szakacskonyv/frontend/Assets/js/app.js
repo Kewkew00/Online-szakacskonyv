@@ -3,7 +3,7 @@ const AppVersion = "v1.0";
 const Author = "Kevo és Tari";
 const Company = "Kevo és Tari Péksége és Temetkezési Vállalata";
 
-const serverUrl = 'http://localhost:3000';
+const serverUrl = 'http://localhost:3001';
 
 let loggedUser = null;
 

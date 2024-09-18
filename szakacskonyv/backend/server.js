@@ -63,7 +63,7 @@ app.post('/reg', (req, res) => {
         }
 
         //új user felvétel
-        pool.query(`INSERT INTO users VALUES('${uuid.v4()}', ${req.body.name}, ${req.body.email}, SHA1('${req.body.password}'), 'user')`, (err, results) => {
+        pool.query(`INSERT INTO users VALUES('${uuid.v4()}', '${req.body.name}', '${req.body.email}', '${req.body.phone}', SHA1('${req.body.password}'), 'user', '1')`, (err, results) => {
             if(err) {
                 res.status(500).send('Hiba az adatbázis elérése közben');
                 return;
@@ -98,3 +98,8 @@ app.post('/login', (req, res) =>{
           return;
     });
 });
+
+app.listen(port, () => {
+    //console.log(process.env) ;
+    console.log(`Server listening on port ${port}...`);
+  });
