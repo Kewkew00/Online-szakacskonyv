@@ -31,3 +31,35 @@ function login(){
         render('recipes');
     });
 }
+
+function updateProfile(){
+    
+    let data = {
+        name: document.querySelector('#name').value,
+        email: document.querySelector('#email').value,
+        phone: document.querySelector('#phone').value
+    }
+
+    axios.patch(`${serverUrl}/users/${loggedUser[0].ID}`, data).then(res => {
+        alert(res.data);
+    });
+}
+
+function updatePassword(){
+    
+    let data = {
+        oldpass: document.querySelector('#oldpass').value,
+        newpass: document.querySelector('#newpass').value,
+        confirm: document.querySelector('#confirm').value
+    }
+
+    axios.patch(`${serverUrl}/passmod/${loggedUser[0].ID}`, data).then(res => {
+        alert(res.data);
+
+        if (res.status == 200){
+            document.querySelector('#oldpass').value = "";
+            document.querySelector('#newpass').value = "";
+            document.querySelector('#confirm').value = "";
+        }
+    });
+}
