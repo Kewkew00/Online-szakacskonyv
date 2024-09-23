@@ -28,10 +28,10 @@ async function render(view){
             getUsers();
             break;
         }
-        /** case 'recipes': {
-            getRecipes();
+        case 'recipes': {
+            addRecipes();
             break;
-        } */
+        }
         case 'statistics': {
             getUserStats();
             getAdminStats();

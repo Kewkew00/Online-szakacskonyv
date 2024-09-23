@@ -330,3 +330,29 @@ app.get('/users/:id', logincheck, (req, res) => {
    });
  });
  
+ // felhasználó lépésadatainak felvitele
+app.post('/recipes/:userID', logincheck, (req, res) => {
+
+  if (!req.params.userID) {
+    res.status(203).send('Hiányzó azonosító!');
+    return;
+  }
+  if (!req.body.title || !req.body.description || !req.body.time || !req.body.additions || !req.body.calorie) {
+    res.status(203).send('Hiányzó adatok!');
+    return;
+  }
+
+    console.log(`INSERT INTO recipes VALUES('${uuid.v4()}', '${0}', '${req.params.userID}', '${req.body.title}', '${req.body.description}', '${req.body.time}', '${req.body.additions}', '${req.body.calorie}')`)
+
+    // insert
+    pool.query(`INSERT INTO recipes VALUES('${uuid.v4()}', '${0}', '${req.params.userID}', '${req.body.title}', '${req.body.description}', '${req.body.time}', '${req.body.additions}', '${req.body.calorie}')`, (err) => {
+      if (err){
+        res.status(500).send('Hiba történt az adatbázis művelet közben!');
+        return;
+      }
+  
+      res.status(200).send('A recept felvéve!');
+      return;
+    });
+
+  });

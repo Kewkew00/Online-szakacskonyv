@@ -1,8 +1,8 @@
 let recipess = [];
 
-function addRecipe(){
+function addRecipes(){
     let data = {
-        date: document.querySelector('#title').value,
+        title: document.querySelector('#title').value,
         description: document.querySelector('#description').value,
         time: document.querySelector('#time').value,
         additions: document.querySelector('#additions').value,
@@ -21,4 +21,8 @@ function addRecipe(){
             getRecipes();
         }
     });
+}
+
+function renderCard(){
+    
 }
