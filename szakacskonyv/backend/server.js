@@ -105,7 +105,7 @@ app.listen(port, () => {
 });
 
 //felhasznalo modositas
-app.patch('/users/:id', (req,res) => {
+app.patch('/users/:id', logincheck, (req,res) => {
     if (!req.params.id) {
         res.status(203).send('Hiányzó azonosító!');
         return;
@@ -135,7 +135,7 @@ app.patch('/users/:id', (req,res) => {
 
 })
 
-app.patch('/passmod/:id', (req, res) => {
+app.patch('/passmod/:id', logincheck, (req, res) => {
   
     if (!req.params.id) {
       res.status(203).send('Hiányzó azonosító!');
@@ -194,3 +194,139 @@ app.patch('/passmod/:id', (req, res) => {
     });
   
 });
+
+app.get('/users', admincheck, (req, res) => {
+
+  //csak admin joggal lehet 
+
+  pool.query(`SELECT ID, name, email, phone, role FROM users`, (err, results) => {
+    if (err){
+      res.status(500).send('Hiba történt az adatbázis lekérés közben!');
+      return;
+    }
+    res.status(200).send(results);
+    return;
+  });
+});
+
+// bejelentkezés ellenőrzése
+function logincheck(req, res, next){
+  let token = req.header('Authorization');
+  
+  if (!token){
+    res.status(400).send('Jelentkezz be!');
+    return;
+  }
+
+  pool.query(`SELECT * FROM users WHERE ID='${token}'`, (err, results) => {
+    if (results.length == 0){
+      res.status(400).send('Hibás authentikáció!');
+      return;
+    } 
+
+    next();
+  });
+
+  return;
+}
+
+// jogosultság ellenőrzése
+function admincheck(req, res, next){
+  let token = req.header('Authorization');
+  
+  if (!token){
+    res.status(400).send('Jelentkezz be!');
+    return;
+  }
+
+  pool.query(`SELECT role FROM users WHERE ID='${token}'`, (err, results) => {
+    if (results.length == 0){
+      res.status(400).send('Hibás authentikáció!');
+      return;
+    } 
+    if (results[0].role != 'admin'){
+      res.status(400).send('Nincs jogosultságod!');
+      return;
+    }
+    next();
+  });
+
+  return;
+}
+
+
+//user torles ID alapjan
+app.delete('/users/:id', logincheck, (req, res) => {
+  
+  if (!req.params.id) {
+    res.status(203).send('Hiányzó azonosító!');
+    return;
+  }
+
+  pool.query(`DELETE FROM users WHERE ID='${req.params.id}'`, (err, results) => {
+    
+    if (err){
+      res.status(500).send('Hiba történt az adatbázis lekérés közben!');
+      return;
+    }
+    
+    if (results.affectedRows == 0){
+      res.status(203).send('Hibás azonosító!');
+      return;
+    }
+
+    res.status(200).send('Felhasználó törölve!');
+    return;
+
+  });
+});
+
+// bejelentkezett felhasználó adatainak lekérése
+app.get('/me/:id', logincheck, (req, res) => {
+   if (!req.params.id) {
+     res.status(203).send('Hiányzó azonosító!');
+     return;
+   }
+ 
+   pool.query(`SELECT name, email, role FROM users WHERE ID='${req.params.id}'`, (err, results) =>{ 
+     if (err){
+       res.status(500).send('Hiba történt az adatbázis lekérés közben!');
+       return;
+     }
+ 
+     if (results.length == 0){
+       res.status(203).send('Hibás azonosító!');
+       return;
+     }
+ 
+     res.status(202).send(results);
+     return;
+ 
+   });
+});
+
+// felhasználó adatainak lekérése id alapján (CSAK ADMIN)
+app.get('/users/:id', logincheck, (req, res) => {
+
+  if (!req.params.id) {
+     res.status(203).send('Hiányzó azonosító!');
+     return;
+   }
+ 
+   pool.query(`SELECT name, email, role FROM users WHERE ID='${req.params.id}'`, (err, results) =>{ 
+     if (err){
+       res.status(500).send('Hiba történt az adatbázis lekérés közben!');
+       return;
+     }
+ 
+     if (results.length == 0){
+       res.status(203).send('Hibás azonosító!');
+       return;
+     }
+ 
+     res.status(202).send(results);
+     return;
+ 
+   });
+ });
+ 
