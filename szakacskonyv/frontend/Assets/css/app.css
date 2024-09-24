@@ -1,3 +1,10 @@
+body{
+    width: 100%;
+}
+
+.container { 
+    width: 100%;
+}
 
 header{
     font-size: 250%;
@@ -6,10 +13,16 @@ header{
 }
 
 footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
     text-align: center;
-    font-size: 80%;
-    letter-spacing: 3px;
-    line-height: 60px;
+    
+    letter-spacing: 1.5px;
 }
 
 hr{
@@ -27,4 +40,25 @@ hr{
 
 h2{
     color: #0d6efd;
+}
+
+.loginview {
+    width: 450px;
+   
+}
+.registrationview{
+    width: 450px;
+}
+
+.cardcontainer {
+    display: flex;
+    flex-direction: row;
+    gap: 60px;
+}
+
+.bg-img {
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
