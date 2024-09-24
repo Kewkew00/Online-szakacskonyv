@@ -70,6 +70,12 @@ function getUsers(){
     });
 }
 
+function getRecipes(){
+    axios.get(`${serverUrl}/recipes`, authorize()).then(res =>{
+        renderCard(res.data);
+    })
+}
+
 function updateUser(id){
     let data = {
         name: document.querySelector('#name').value,
@@ -174,128 +180,22 @@ function logout(){
     render('login');
 }
 
-function createCard(){
+function createCard(recipes){
     const cardContainer = document.getElementById('card-container');
 
+    document.querySelector('#title').value = res.data[0].title;
+    document.querySelector('#description').value = res.data[0].description;
+    document.querySelector('#time').value = res.data[0].time;
+    document.querySelector('#additions').value = res.data[0].additions;
+    document.querySelector('#calorie').value = res.data[0].calorie;
 
-    data.forEach(cardData => {
-        // Létrehozunk egy card divet
+    const createCard = (title, content) => {
         const card = document.createElement('div');
         card.className = 'card';
-        card.style.width = '18rem';
-
-        // Létrehozunk egy card-body divet
-        const cardBody = document.createElement('div');
-        cardBody.className = 'card-body';
-
-        // Létrehozunk egy h5 elemet
-        const cardTitle = document.createElement('h5');
-        cardTitle.className = 'card-title';
-        cardTitle.textContent = cardData.title;
-
-        // Létrehozunk egy p elemet
-        const cardText = document.createElement('p');
-        cardText.className = 'card-text';
-        cardText.textContent = cardData.text;
-
-        // Összekapcsoljuk a card-body elemeit
-        cardBody.appendChild(cardTitle);
-        cardBody.appendChild(cardText);
-
-        // Létrehozunk egy list-group elemet
-        const listGroup = document.createElement('ul');
-        listGroup.className = 'list-group list-group-flush';
-
-        // Létrehozunk list-group-item elemeket az adatbázis elemei alapján
-        cardData.items.forEach(itemText => {
-          const listItem = document.createElement('li');
-          listItem.className = 'list-group-item';
-          listItem.textContent = itemText;
-          listGroup.appendChild(listItem);
-        });
-
-        // Létrehozunk egy második card-body-t a linkek számára
-        const cardLinksBody = document.createElement('div');
-        cardLinksBody.className = 'card-body';
-
-        // Létrehozunk linkeket az adatbázis alapján
-        cardData.links.forEach(linkUrl => {
-          const link = document.createElement('a');
-          link.href = linkUrl;
-          link.className = 'card-link';
-          link.textContent = 'Card link';
-          cardLinksBody.appendChild(link);
-        });
-
-        // Összerakjuk az összes elemet a card divbe
-        card.appendChild(cardBody);
-        card.appendChild(listGroup);
-        card.appendChild(cardLinksBody);
-
-        // Végül hozzáadjuk a card-ot a HTML dokumentumhoz
+        card.innerHTML = `<h3>${title}</h3><p>${description}</p>`;
         cardContainer.appendChild(card);
-      });
+    };
+    
+    createCard('My Card Title', 'This is the content of the card.');
+    
 };
-
-/*const card = document.createElement('div');
-card.className = 'card';
-card.style.width = '18rem';
-
-// Létrehozunk egy card-body divet
-const cardBody = document.createElement('div');
-cardBody.className = 'card-body';
-
-// Létrehozunk egy h5 elemet
-const cardTitle = document.createElement('h5');
-cardTitle.className = 'card-title';
-cardTitle.textContent = 'Card title';
-
-// Létrehozunk egy p elemet
-const cardText = document.createElement('p');
-cardText.className = 'card-text';
-cardText.textContent = 'Some quick example text to build on the card title and make up the bulk of the card\'s content.';
-
-// Összekapcsoljuk a card-body elemeit
-cardBody.appendChild(cardTitle);
-cardBody.appendChild(cardText);
-
-// Létrehozunk egy list-group elemet
-const listGroup = document.createElement('ul');
-listGroup.className = 'list-group list-group-flush';
-
-// Létrehozunk list-group-item elemeket
-const items = ['An item', 'A second item', 'A third item'];
-items.forEach(itemText => {
-  const listItem = document.createElement('li');
-  listItem.className = 'list-group-item';
-  listItem.textContent = itemText;
-  listGroup.appendChild(listItem);
-});
-
-// Létrehozunk egy második card-body-t a linkek számára
-const cardLinksBody = document.createElement('div');
-cardLinksBody.className = 'card-body';
-
-// Létrehozunk két linket
-const link1 = document.createElement('a');
-link1.href = '#';
-link1.className = 'card-link';
-link1.textContent = 'Card link';
-
-const link2 = document.createElement('a');
-link2.href = '#';
-link2.className = 'card-link';
-link2.textContent = 'Another link';
-
-// Összekapcsoljuk a linkeket
-cardLinksBody.appendChild(link1);
-cardLinksBody.appendChild(link2);
-
-// Összerakjuk az összes elemet a card divbe
-card.appendChild(img);
-card.appendChild(cardBody);
-card.appendChild(listGroup);
-card.appendChild(cardLinksBody);
-
-// Végül hozzáadjuk a card-ot a HTML dokumentumhoz
-document.getElementById('card-container').appendChild(card);*/
