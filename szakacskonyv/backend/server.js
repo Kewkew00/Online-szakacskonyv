@@ -135,6 +135,7 @@ app.patch('/users/:id', logincheck, (req,res) => {
 
 })
 
+//jelszo modositas
 app.patch('/passmod/:id', logincheck, (req, res) => {
   
     if (!req.params.id) {
@@ -330,7 +331,7 @@ app.get('/users/:id', logincheck, (req, res) => {
    });
  });
  
- // felhasználó lépésadatainak felvitele
+ //recept felvetel
 app.post('/recipes/:userID', logincheck, (req, res) => {
 
   if (!req.params.userID) {

@@ -53,7 +53,7 @@ function updatePassword(){
         confirm: document.querySelector('#confirm').value
     }
 
-    axios.patch(`${serverUrl}/passmod/${loggedUser[0].ID}`, data, authorize()).then(res => {
+    axios.patch(`${serverUrl}/passmod/${loggedUser[0].ID}`,data ,authorize() ).then(res => {
         alert(res.data);
 
         if (res.status == 200){
@@ -134,6 +134,7 @@ function renderUsers(users){
         let td3 = document.createElement('td');
         let td4 = document.createElement('td');
         let td5 = document.createElement('td');
+        
         td1.innerHTML = '#';
         td2.innerHTML = user.name;
         td3.innerHTML = user.email;
@@ -159,8 +160,6 @@ function renderUsers(users){
         tr.appendChild(td4);
         tr.appendChild(td5);
 
-
-
         tbody.appendChild(tr);
     });
 
@@ -169,7 +168,7 @@ function renderUsers(users){
 }
 
 function logout(){
-    localStorage.removeItem('stepcounter');
+    localStorage.removeItem('szakacskonyv');
     loggedUser = null;
     renderNavItems();
     render('login');

@@ -29,7 +29,7 @@ async function render(view){
             break;
         }
         case 'recipes': {
-            addRecipes();
+           // addRecipes();
             break;
         }
         case 'statistics': {
@@ -65,7 +65,7 @@ function renderNavItems(){
         return;
     }
 
-    if (loggedUser.role == 'admin'){
+    if (loggedUser[0].role == 'admin'){
         admNavItems.forEach(item => {
             item.classList.remove('d-none');
         });
