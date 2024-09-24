@@ -29,7 +29,7 @@ async function render(view){
             break;
         }
         case 'recipes': {
-           // addRecipes();
+            getRecipes();
             break;
         }
         case 'statistics': {

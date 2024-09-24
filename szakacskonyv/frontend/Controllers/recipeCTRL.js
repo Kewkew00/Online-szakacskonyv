@@ -19,6 +19,7 @@ function addRecipes(){
             document.querySelector('#additions').value = null;
             document.querySelector('#calorie').value = null;
             getRecipes();
+            createCard();
         }
     });
 }
