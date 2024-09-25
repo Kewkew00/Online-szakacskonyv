@@ -88,3 +88,4 @@ function authorize(){
 }
 
 renderNavItems();
+
