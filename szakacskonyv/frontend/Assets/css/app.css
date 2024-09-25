@@ -24,7 +24,7 @@ footer{
     bottom: 0;
     width: 100%;
     color: #ffffff;
-    outline: #000 0.5px;
+    text-shadow: 1px 1px #000000;
     font-style: initial;
     text-align: center;
     
