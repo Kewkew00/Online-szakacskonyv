@@ -65,7 +65,11 @@ function renderNavItems(){
         return;
     }
 
-    
+    if (loggedUser[0].role == 'admin'){
+        admNavItems.forEach(item => {
+            item.classList.remove('d-none');
+        });
+    }
  
     lgdInNavItems.forEach(item => {
         item.classList.remove('d-none');
@@ -74,16 +78,6 @@ function renderNavItems(){
     lgdOutNavItems.forEach(item => {
         item.classList.add('d-none');
     });
-
-    admNavItems.forEach(item => {
-        item.classList.add('d-none');
-    });
-
-    if (loggedUser[0].role == 'admin'){
-        admNavItems.forEach(item => {
-            item.classList.remove('d-none');
-        });
-    }
 }
 
 function authorize(){

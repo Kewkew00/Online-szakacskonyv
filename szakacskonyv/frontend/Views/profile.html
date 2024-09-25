@@ -2,20 +2,23 @@
     <h3>Profil módosítás</h3>
     <hr>
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" placeholder="Name" >
+        <input type="text" class="form-control" id="name" placeholder="Name" disabled>
         <label for="name">Név</label>
     </div>
     <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="email" placeholder="name@example.com" >
+        <input type="email" class="form-control" id="email" placeholder="name@example.com" disabled>
         <label for="email">E-mail cím</label>
     </div>
 
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="phone" placeholder="" >
-        <label for="phone">Telefonszám</label>
+        <select class="form-select" id="role" aria-label="Role">
+          <option value="user">user</option>
+          <option value="admin">admin</option>
+        </select>
+        <label for="role">Role</label>
     </div>
 
-    <button class="btn btn-warning mb-3" id="updBtn" onclick="updateProfile ()">Profil frissítése</button>
+    <button class="btn btn-warning mb-3" id="updBtn">Profil frissítése</button>
     <button class="btn btn-dark mb-3" onclick="render('users')">Vissza a felhasználók listájára...</button>
 
 </div>

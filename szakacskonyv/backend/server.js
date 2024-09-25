@@ -118,7 +118,7 @@ app.patch('/users/:id', logincheck, (req,res) => {
 
     //ne módosíthassa már meglévő email címre az email címét
 
-    pool.query(`UPDATE users SET name='${req.body.name}', email='${req.body.email}', phone='${req.body.phone}' WHERE ID='${req.params.id}'`, (err, results) => {
+    pool.query(`UPDATE users SET name='${req.body.name}', email='${req.body.email}', role='${req.body.role}' WHERE ID='${req.params.id}'`, (err, results) => {
         if (err){
           res.status(500).send('Hiba történt az adatbázis lekérés közben!');
           return;
@@ -289,7 +289,7 @@ app.get('/me/:id', logincheck, (req, res) => {
      return;
    }
  
-   pool.query(`SELECT name, email, phone FROM users WHERE ID='${req.params.id}'`, (err, results) =>{ 
+   pool.query(`SELECT name, email, role FROM users WHERE ID='${req.params.id}'`, (err, results) =>{ 
      if (err){
        res.status(500).send('Hiba történt az adatbázis lekérés közben!');
        return;

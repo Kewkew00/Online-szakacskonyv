@@ -40,7 +40,7 @@ function updateProfile(){
         phone: document.querySelector('#phone').value
     }
 
-    axios.patch(`${serverUrl}/users/${loggedUser[0].ID}`, data, authorize()).then(res => {
+    axios.patch(`${serverUrl}/users/${loggedUser[0].ID}`, data).then(res => {
         alert(res.data);
     });
 }
@@ -74,7 +74,7 @@ function updateUser(id){
     let data = {
         name: document.querySelector('#name').value,
         email: document.querySelector('#email').value,
-        role: document.querySelector('#phone').value
+        role: document.querySelector('#role').value
 
     }
     axios.patch(`${serverUrl}/users/${id}`, data, authorize()).then(res => {
@@ -87,11 +87,11 @@ function updateUser(id){
 
 function editUser(id){
     
-    render('profile').then(()=>{
+    render('edituser').then(()=>{
             axios.get(`${serverUrl}/users/${id}`, authorize()).then(res => {
                 document.querySelector('#name').value = res.data[0].name;
                 document.querySelector('#email').value = res.data[0].email;
-                document.querySelector('#phone').value = res.data[0].phone;
+                document.querySelector('#role').value = res.data[0].role;
                 document.querySelector('#updBtn').onclick = function() {updateUser(id)};
             });
         });
@@ -113,7 +113,7 @@ function getMe(){
     axios.get(`${serverUrl}/me/${loggedUser[0].ID}`, authorize()).then(res => {
         document.querySelector('#name').value = res.data[0].name;
         document.querySelector('#email').value = res.data[0].email;
-        document.querySelector('#phone').value = res.data[0].phone;
+        document.querySelector('#role').value = res.data[0].role;
     });
 }
 
@@ -190,6 +190,6 @@ function createCard(recipes){
         cardContainer.appendChild(card);
     };
     
-    createCard();
+    createCard('My Card Title', 'This is the content of the card.');
     
 };
