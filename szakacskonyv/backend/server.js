@@ -330,6 +330,26 @@ app.get('/users/:id', logincheck, (req, res) => {
  
    });
  });
+
+ //receptek lekérdezése
+app.get('/recipes/:userID', logincheck, (req) => {
+  if (!req.params.userID) {
+    res.status(203).send('Hiányzó azonosító!');
+    return;
+  }
+
+  pool.query(`SELECT * FROM recipes WHERE userID='${req.params.userID}'`, (err, results) => {
+    if (err){
+      res.status(500).send('Hiba történt az adatbázis lekérés közben!');
+      return;
+    }
+
+    res.status(200).send(results);
+    return;
+
+  });
+
+});
  
  //recept felvetel
 app.post('/recipes/:userID', logincheck, (req, res) => {
@@ -357,3 +377,12 @@ app.post('/recipes/:userID', logincheck, (req, res) => {
     });
 
   });
+
+// recept törlése
+app.delete('/recipes/:userID/:date', logincheck, (req, res)=>{
+    
+  if (!req.params.userID) {
+    res.status(203).send('Hiányzó paraméter!');
+    return;
+  }
+});

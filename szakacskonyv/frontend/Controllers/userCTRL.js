@@ -70,12 +70,6 @@ function getUsers(){
     });
 }
 
-function getRecipes(){
-    axios.get(`${serverUrl}/recipes`, authorize()).then(res =>{
-        renderCard(res.data);
-    })
-}
-
 function updateUser(id){
     let data = {
         name: document.querySelector('#name').value,
