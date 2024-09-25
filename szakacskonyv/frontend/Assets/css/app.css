@@ -7,6 +7,7 @@ body,html{
 
 .container { 
     width: 100%;
+    height: 100%;
 }
 
 header{
@@ -72,5 +73,3 @@ h2{
     margin: 10px;
     display: block;
 }
-
-
