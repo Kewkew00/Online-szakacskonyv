@@ -332,7 +332,7 @@ app.get('/users/:id', logincheck, (req, res) => {
  });
 
  //receptek lekérdezése
-app.get('/recipes/:userID', logincheck, (req) => {
+app.get('/recipes/:userID', logincheck, (req, res) => {
   if (!req.params.userID) {
     res.status(203).send('Hiányzó azonosító!');
     return;

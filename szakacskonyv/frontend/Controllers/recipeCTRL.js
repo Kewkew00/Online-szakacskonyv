@@ -44,39 +44,30 @@ function getRecipes(){
     })
 }
 
-function renderRecipeTable(){
-    let tbody = document.querySelector('tbody');
-    tbody.innerHTML = '';
+function renderCard(){
+    const fetchRecipes = async () => {
+        const response = await fetch('/recipes');
+        const recipes = await response.json();
+        displayRecipes(recipes);
+    };
 
-    let summary = 0;
-    stepdatas.forEach((item, index) =>{
-        let tr = document.createElement('tr');
-
-        tr.onclick = function() {selectRow(Number(index))};
+    const displayRecipes = (recipes) => {
+        const container = document.getElementById('recipes-container');
+        container.innerHTML = '';
         
-        let td1 = document.createElement('td');
-        let td2 = document.createElement('td');
-        let td3 = document.createElement('td');
+        recipes.forEach(recipe => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <h2>${recipe.title}</h2>
+                <p>${recipe.description}</p>
+                <p>Time: ${recipe.time} mins</p>
+                <p>Additions: ${recipe.additions}</p>
+                <p>Calories: ${recipe.calories}</p>
+            `;
+            container.appendChild(card);
+        });
+    };
 
-        td1.innerHTML = (index +1) + '.';
-        td2.innerHTML = moment(item.date).format('YYYY-MM-DD');
-        td3.innerHTML = item.count;
-        td3.classList.add('text-end');
-        tr.appendChild(td1);
-        tr.appendChild(td2);
-        tr.appendChild(td3);
-        tbody.appendChild(tr);
-        summary += item.count;
-    });
-    document.querySelector('strong').innerHTML = summary;
-}
-
-function selectRow(index){
-    document.querySelector('.insertmode').classList.add('d-none');
-    document.querySelectorAll('.editmode').forEach(item =>{
-        item.classList.remove('d-none');
-    });
-
-    document.querySelector('#date').value = moment(stepdatas[index].date).format('YYYY-MM-DD');
-    document.querySelector('#steps').value = stepdatas[index].count;
-}
+    window.onload = fetchRecipes;
+};
