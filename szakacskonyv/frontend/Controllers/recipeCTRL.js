@@ -1,5 +1,16 @@
 let receptek = [];
 
+document.getElementById('load-recipes-btn').addEventListener('click', async function() {
+    try {
+        const response = await fetch('https://api.example.com/recipes');
+        const recipes = await response.json();
+
+        createCard(recipes);
+    } catch (error) {
+        console.error('Error fetching recipes:', error);
+    }
+});
+
 function addRecipes(){
     let data = {
         title: document.querySelector('#title').value,
@@ -21,13 +32,13 @@ function addRecipes(){
             getRecipes();
         }
     });
+    createCard(res.data);
 }
 
-function deleteRecipe(){
-    if (confirm('Are you shure to delete then selected data?')){
-        let date = document.querySelector('#date').value;
-    
-        axios.delete(`${serverUrl}/recipes/${loggedUser[0].ID}/${date}`, authorize()).then(res =>{
+function deleteRecipe(id){
+    if (confirm('Biztos törölni akarod a receptet?')){
+        
+        axios.delete(`${serverUrl}/recipes/${id}`, authorize()).then(res =>{
             alert(res.data);
 
             if (res.status == 200){
@@ -40,34 +51,29 @@ function deleteRecipe(){
 
 function getRecipes(){
     axios.get(`${serverUrl}/recipes/${loggedUser[0].ID}`, authorize()).then(res =>{
-        renderCard(res.data);
+        createCard(res.data);
     })
 }
 
-function renderCard(){
-    const fetchRecipes = async () => {
-        const response = await fetch('/recipes');
-        const recipes = await response.json();
-        displayRecipes(recipes);
-    };
+function createCard(recipes) {
+    const cardContainer = document.getElementById('card-container');
+    cardContainer.innerHTML = '';
 
-    const displayRecipes = (recipes) => {
-        const container = document.getElementById('recipes-container');
-        container.innerHTML = '';
-        
-        recipes.forEach(recipe => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.innerHTML = `
-                <h2>${recipe.title}</h2>
-                <p>${recipe.description}</p>
-                <p>Time: ${recipe.time} mins</p>
-                <p>Additions: ${recipe.additions}</p>
-                <p>Calories: ${recipe.calories}</p>
-            `;
-            container.appendChild(card);
-        });
-    };
+    recipes.forEach(recipe => {
+        const card = document.createElement('div');
+        card.className = 'card col-md-4 mb-4';
 
-    window.onload = fetchRecipes;
-};
+        card.innerHTML = `
+            <div class="card-body">
+                <h5 class="card-title">${recipe.title}</h5>
+                <p class="card-text">${recipe.description}</p>
+                <p><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
+                <p><strong>Hozzávalók:</strong> ${recipe.additions}</p>
+                <p><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
+                <button href="#" class="btn btn-danger" onlclick="deleteRecipe(${recipe.ID})">Törlés</button>
+            </div>
+        `;
+
+        cardContainer.appendChild(card);
+    });
+}

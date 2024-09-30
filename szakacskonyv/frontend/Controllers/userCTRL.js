@@ -173,23 +173,3 @@ function logout(){
     renderNavItems();
     render('login');
 }
-
-function createCard(recipes){
-    const cardContainer = document.getElementById('card-container');
-
-    document.querySelector('#title').value = res.data[0].title;
-    document.querySelector('#description').value = res.data[0].description;
-    document.querySelector('#time').value = res.data[0].time;
-    document.querySelector('#additions').value = res.data[0].additions;
-    document.querySelector('#calorie').value = res.data[0].calorie;
-
-    const createCard = (title, content) => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `<h3>${title}</h3><p>${description}</p>`;
-        cardContainer.appendChild(card);
-    };
-    
-    createCard('My Card Title', 'This is the content of the card.');
-    
-};
