@@ -65,12 +65,25 @@ function renderNavItems(){
         return;
     }
 
+   
+
     if (loggedUser[0].role == 'admin'){
         admNavItems.forEach(item => {
             item.classList.remove('d-none');
         });
+
+        console.log(loggedUser[0].role);
     }
- 
+    else {
+        admNavItems.forEach(item => {
+            item.classList.add('d-none');
+        });
+    }
+
+   
+    
+
+
     lgdInNavItems.forEach(item => {
         item.classList.remove('d-none');
     });
