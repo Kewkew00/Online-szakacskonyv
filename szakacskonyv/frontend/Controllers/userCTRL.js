@@ -74,7 +74,7 @@ function updateUser(id){
     let data = {
         name: document.querySelector('#name').value,
         email: document.querySelector('#email').value,
-        role: document.querySelector('#role').value
+        phone: document.querySelector('#phone').value
 
     }
     axios.patch(`${serverUrl}/users/${id}`, data, authorize()).then(res => {
@@ -87,11 +87,11 @@ function updateUser(id){
 
 function editUser(id){
     
-    render('edituser').then(()=>{
+    render('profile').then(()=>{
             axios.get(`${serverUrl}/users/${id}`, authorize()).then(res => {
                 document.querySelector('#name').value = res.data[0].name;
                 document.querySelector('#email').value = res.data[0].email;
-                document.querySelector('#role').value = res.data[0].role;
+                document.querySelector('#phone').value = res.data[0].phone;
                 document.querySelector('#updBtn').onclick = function() {updateUser(id)};
             });
         });
@@ -113,7 +113,7 @@ function getMe(){
     axios.get(`${serverUrl}/me/${loggedUser[0].ID}`, authorize()).then(res => {
         document.querySelector('#name').value = res.data[0].name;
         document.querySelector('#email').value = res.data[0].email;
-        document.querySelector('#role').value = res.data[0].role;
+        document.querySelector('#phone').value = res.data[0].phone;
     });
 }
 
