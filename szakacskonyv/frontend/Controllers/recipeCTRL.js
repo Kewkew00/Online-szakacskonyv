@@ -65,7 +65,7 @@ function createCard(recipes) {
 
         card.innerHTML = `
             <div class="card-body">
-                <h5 class="card-title">${recipe.title}</h5>
+                <h5 class="card-title"><strong> ${recipe.title} </strong></h5>
                 <p class="card-text">${recipe.description}</p>
                 <p><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
                 <p><strong>Hozzávalók:</strong> ${recipe.additions}</p>
