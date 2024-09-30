@@ -379,14 +379,21 @@ app.post('/recipes/:userID', logincheck, (req, res) => {
 
 // recept törlése
 app.delete('/recipes/:ID/', logincheck, (req, res)=>{
-  
-  pool.query(`DELETE FROM recipes WHERE('${uuid.v4()}', '${0}', '${req.params.userID}', '${req.body.title}', '${req.body.description}', '${req.body.time}', '${req.body.additions}', '${req.body.calorie}')`, (err) => {
-    if (err){
-      res.status(500).send('Hiba történt az adatbázis művelet közben!');
-      return;
-    }
-
-    res.status(200).send('A recept törölve!');
+    
+  if (!req.params.ID) {
+    res.status(203).send('Hiányzó paraméter!');
     return;
-  });
-});
+  }
+    
+    pool.query(`DELETE FROM recipes WHERE ID='${req.params.ID}'`, (err) => {
+      if (err){
+        res.status(500).send('Hiba történt az adatbázis művelet közben!');
+        return;
+      }
+
+      res.status(200).send(`A recept törölve!`);
+      return;
+
+    });   
+  
+})

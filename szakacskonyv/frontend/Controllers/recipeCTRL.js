@@ -1,16 +1,5 @@
 let receptek = [];
 
-document.getElementById('load-recipes-btn').addEventListener('click', async function() {
-    try {
-        const response = await fetch('https://api.example.com/recipes');
-        const recipes = await response.json();
-
-        createCard(recipes);
-    } catch (error) {
-        console.error('Error fetching recipes:', error);
-    }
-});
-
 function addRecipes(){
     let data = {
         title: document.querySelector('#title').value,
@@ -35,17 +24,15 @@ function addRecipes(){
     createCard(res.data);
 }
 
-function deleteRecipe(id){
+function deleteRecipe(ID){
     if (confirm('Biztos törölni akarod a receptet?')){
         
-        axios.delete(`${serverUrl}/recipes/${id}`, authorize()).then(res =>{
+        axios.delete(`${serverUrl}/recipes/${ID}`, authorize()).then(res =>{
             alert(res.data);
-
             if (res.status == 200){
-                cancel();
                 getRecipes();
             }
-        });
+        })
     }
 }
 
@@ -63,6 +50,11 @@ function createCard(recipes) {
         const card = document.createElement('div');
         card.className = 'card col-md-4 mb-4';
 
+        let btn = document.createElement('button');
+        btn.innerHTML = 'Törlés';
+        btn.classList.add('btn','btn-danger');
+        btn.onclick = function() {deleteRecipe(recipe.ID)};
+
         card.innerHTML = `
             <div class="card-body">
                 <h5 class="card-title"><strong> ${recipe.title} </strong></h5>
@@ -70,10 +62,10 @@ function createCard(recipes) {
                 <p><strong>Elkészítési idő:</strong> ${recipe.time} perc</p>
                 <p><strong>Hozzávalók:</strong> ${recipe.additions}</p>
                 <p><strong>Kalória:</strong> ${recipe.calorie} kcal</p>
-                <button href="#" class="btn btn-danger" onlclick="deleteRecipe(${recipe.ID})">Törlés</button>
+                
             </div>
         `;
-
+        card.appendChild(btn);
         cardContainer.appendChild(card);
     });
 }
