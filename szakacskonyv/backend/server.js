@@ -100,7 +100,6 @@ app.post('/login', (req, res) =>{
 });
 
 app.listen(port, () => {
-    //console.log(process.env) ;
     console.log(`Server listening on port ${port}...`);
 });
 
@@ -111,7 +110,7 @@ app.patch('/users/:id', logincheck, (req,res) => {
         return;
     }
 
-    if (!req.body.name || !req.body.email || !req.body.phone) {
+    if (!req.body.name || !req.body.email || !req.body.phone || !req.body.role) {
         res.status(203).send('Hiányzó adatok!');
         return;
     }
@@ -289,7 +288,7 @@ app.get('/me/:id', logincheck, (req, res) => {
      return;
    }
  
-   pool.query(`SELECT ID, name, email, phone FROM users WHERE ID='${req.params.id}'`, (err, results) =>{ 
+   pool.query(`SELECT ID, name, email, phone, role FROM users WHERE ID='${req.params.id}'`, (err, results) =>{ 
      if (err){
        res.status(500).send('Hiba történt az adatbázis lekérés közben!');
        return;
@@ -307,14 +306,14 @@ app.get('/me/:id', logincheck, (req, res) => {
 });
 
 // felhasználó adatainak lekérése id alapján (CSAK ADMIN)
-app.get('/users/:id', logincheck, (req, res) => {
+app.get('/users/:id', admincheck, (req, res) => {
 
   if (!req.params.id) {
      res.status(203).send('Hiányzó azonosító!');
      return;
    }
  
-   pool.query(`SELECT name, email, role FROM users WHERE ID='${req.params.id}'`, (err, results) =>{ 
+   pool.query(`SELECT name, email, phone, role FROM users WHERE ID='${req.params.id}'`, (err, results) =>{ 
      if (err){
        res.status(500).send('Hiba történt az adatbázis lekérés közben!');
        return;
